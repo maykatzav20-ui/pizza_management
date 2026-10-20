@@ -1,8 +1,9 @@
+from abc import ABC, abstractmethod
 from datetime import date
 from surprise import Surprise
 
 
-class PizzaStore:
+class PizzaStore(ABC):
     def __init__(self, store_id, name, address,
                  phone_number, employees=None):
 
@@ -22,20 +23,20 @@ class PizzaStore:
     def calculate_employee_expenses(self):
         return sum(employee.salary for employee in self.employees)
 
+    @abstractmethod
     def calculate_rank(self):
-        raise NotImplementedError(
-            "Subclasses must implement calculate_rank()"
-        )
+        pass
 
     def update_rank(self):
         self.rank = self.calculate_rank()
         return self.rank
 
     def hire_employee(self, employee):
-        # לא ניתן להעסיק עובד שכבר נמצא ברשימה
-        if employee in self.employees:
-            print("Employee already works at this store.")
-            return False
+        # בדיקה אם עובד עם אותו ID כבר מועסק בחנות
+        for existing_employee in self.employees:
+            if existing_employee.id == employee.id:
+                print("Employee already works at this store.")
+                return False
 
         self.employees.append(employee)
         self.update_rank()
