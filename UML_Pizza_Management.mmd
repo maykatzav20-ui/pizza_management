@@ -1,0 +1,50 @@
+
+classDiagram
+    class PizzaStore {
+        <<abstract>>
+        -id
+        -name
+        -address
+        -phone_number
+        -employees
+        -rank
+        +number_of_employees
+        +calculate_employee_expenses()
+        +calculate_rank()
+        +update_rank()
+        +hire_employee(employee)
+        +resign_employee(employee)
+        +calculate_ranged_rank(rank_range)
+        +give_surprise_to_best_employees()
+        +activate_employee_surprise(employee)
+    }
+
+    class PizzaHut {
+        +calculate_rank()
+    }
+
+    class PizzaDominos {
+        +calculate_rank()
+    }
+
+    class Employee {
+        -id
+        -first_name
+        -last_name
+        -address
+        -salary
+        -start_date
+        -surprise
+        -pizza_rank
+        -pizza_rank_date
+        +set_rank()
+    }
+
+    class Surprise {
+        +activate_surprise()
+    }
+
+    PizzaStore <|-- PizzaHut
+    PizzaStore <|-- PizzaDominos
+    PizzaStore "1" o-- "0..*" Employee : employs
+    Employee "1" o-- "0..1" Surprise : has
